@@ -76,6 +76,9 @@ function getFollowing(auth) {
 	  	for	(i = 0; i < result.length; i++) {
 	  		getGists(auth, result[i]);
 	  	}
+	  	if (result.length == 0) {
+	  		document.getElementById("status").innerHTML = "<div class=\"alert alert-warning\" role=\"alert\">Try following someone on Github</div>";
+	  	}
 	}).fail(handle);
 }
 
