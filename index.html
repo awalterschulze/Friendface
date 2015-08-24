@@ -17,17 +17,17 @@
 		</div>
 		<div class="row" id="status"><div class="alert alert-info" role="alert">Loading...</div></div>
 		<div class="row">
-			<div class="col-sm-2">
+			<div class="col-sm-1">
 				<div class="container" id="following">
 				<div class="row"><h3>Following</h3></div>
 				</div>
 			</div>
-			<div class="col-sm-8">
+			<div class="col-sm-10">
 				<div class="container" id="gists">
 				<div class="row"><h3>Gists</h3></div>
 				</div>
 			</div>
-			<div class="col-sm-2">
+			<div class="col-sm-1">
 				<div class="container" id="followers">
 				<div class="row"><h3>Followers</h3></div>
 				</div>
@@ -54,50 +54,7 @@ function getGists(auth, user) {
 		}
 		waitingForGists = waitingForGists - 1;
 		gists.sort(function(a,b) {
-			console.log(a + " = " + Date.parse(a.updated_at));
-			console.log(b + " = " + Date.parse(b.updated_at));
 			return Date.parse(b.updated_at) - Date.parse(a.updated_at)
-			// var ayearstr = a.updated_at.slice(0,4);
-			// var byearstr = b.updated_at.slice(0,4);
-			// console.log(ayearstr);
-			// var ayear = parseInt(ayearstr);
-			// var byear = parseInt(byearstr);
-			// if (ayear != byear) {
-			// 	return ayear - byear;
-			// }
-			// var amonthstr = a.updated_at.slice(5,7);
-			// var bmonthstr = b.updated_at.slice(5,7);
-			// var amonth = parseInt(ayearstr);
-			// var bmonth = parseInt(bmonthstr);
-			// if (amonth != bmonth) {
-			// 	return amonth - bmonth;
-			// }
-			// var adaystr = a.updated_at.slice(8,10);
-			// var bdaystr = b.updated_at.slice(8,10);
-			// var aday = parseInt(adaystr);
-			// var bday = parseInt(bdaystr);
-			// if (aday != bday) {
-			// 	return aday - bday;	
-			// }
-			// var ahourstr = a.updated_at.slice(11,13);
-			// var bhourstr = b.updated_at.slice(11,13);
-			// var ahour = parseInt(ahourstr);
-			// var bhour = parseInt(bhourstr);
-			// if (ahour != bhour) {
-			// 	return ahour - bhour;
-			// }
-			// var aminutestr = a.updated_at.slice(14,16);
-			// var bminutestr = b.updated_at.slice(14,16);
-			// var aminute = parseInt(aminutestr);
-			// var bminute = parseInt(bminutestr);
-			// if (aminute != bminute) {
-			// 	return aminute - bminute;
-			// }
-			// var asecondstr = a.updated_at.slice(17,19);
-			// var bsecondstr = b.updated_at.slice(17,19);
-			// var asecond = parseInt(asecondstr);
-			// var bsecond = parseInt(bsecondstr);
-			// return asecond - bsecond;
 		});
 		if (waitingForGists == 0) {
 			gistsDiv = document.getElementById("gists");
@@ -114,7 +71,7 @@ function getGists(auth, user) {
 					"<a href=\"" + gists[i].html_url + "\">" + gists[i].updated_at + "</a>" +
 					"</div>" +
 					"<div class=\"col-sm-9\">" +
-						"<div class=\"container\">" + desc + "</div>" +
+						"<p>" + desc + "</p>" +
 					"</div>" +
 				"</div>"
 			}
