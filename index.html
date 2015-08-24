@@ -1,0 +1,98 @@
+<html>
+	<head>
+		<title>Feed</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="https://cdn.rawgit.com/oauth-io/oauth-js/master/dist/oauth.min.js"></script>
+	<script src="https://rawgit.com/michael/github/master/github.js"></script>
+	</head>
+	<body>
+		<div class="container">
+		<div class="row"><img src="https://rawgit.com/awalterschulze/Friendface/master/friendface.png"></img></div>
+		<div class="row" id="status"><div class="alert alert-info" role="alert">Loading...</div></div>
+		<div class="row">
+			<div class="col-sm-2">
+				<div class="container" id="following">
+				<div class="row"><h3>Following</h3></div>
+				</div>
+			</div>
+			<div class="col-sm-8">
+				<div class="container" id="gists">
+				<div class="row"><h3>Gists</h3></div>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="container" id="followers">
+				<div class="row"><h3>Followers</h3></div>
+				</div>
+			</div>
+		</div>
+		</div>
+		<script type="text/javascript">
+
+function userToImage(user, width) {
+	return "<div class\"row\">" +
+	"<a href=\"" + user.html_url + "\">" +
+	"<img src=\"" + user.avatar_url + "\" width=\"" + width + "\"></img>" +
+	"</a>" + 
+	"</div>";
+}
+
+function getGists(auth, user) {
+	auth.get('/users/' + user.login + '/gists').done(function (result) {
+		gistsDiv = document.getElementById("gists");
+		console.log("gists for " + user.login + " = [" + result.length + "]" + result);
+		for (i = 0; i < result.length; i++) {
+			var desc = result[i]["description"];
+			if ((desc == undefined) || (desc == null) || (desc.length == 0)) {
+				desc = Object.keys(result[i].files)[0];
+			}
+			gistsDiv.innerHTML += "<div class=\"row\">" + 
+			"<div class=\"col-sm-1\">" + 
+			userToImage(user, 48) + 
+			"</div>" +
+			"<div class=\"col-sm-11\">" +
+			"<a href=\"" + result[i].html_url + "\">" + result[i].updated_at + " : " + desc + "</a>" +
+			"</div>" +
+			"</div>"
+		}
+	}).fail(handle);
+}
+
+function getFollowers(auth) {
+	return auth.get('/user/followers').done(function(result) {
+	  	for	(i = 0; i < result.length; i++) {
+	  		followDiv = document.getElementById("followers");
+	  		followDiv.innerHTML += userToImage(result[i], 96);
+	  	}
+	}).fail(handle);
+}
+
+function getFollowing(auth) {
+	return auth.get('/user/following').done(function(result) {
+	  	for	(i = 0; i < result.length; i++) {
+	  		followDiv = document.getElementById("following");
+	  		followDiv.innerHTML += userToImage(result[i], 96);
+	  		getGists(auth, result[i]);
+	  	}
+	}).fail(handle);
+}
+
+function handle(err) {
+	document.getElementById("status").innerHTML = "<div class=\"alert alert-danger\" role=\"alert\">Error: " + err + "</div>";
+	console.log(err);
+}
+
+function init(auth) {
+	getFollowers(auth);
+	getFollowing(auth);
+}
+
+OAuth.initialize('JVgPQz-clJiYdvieB373KVGrgXg');
+OAuth.popup('github').done(function(result) {
+	init(result);
+}).fail(handle);
+		</script>
+	</body>
+</html>
