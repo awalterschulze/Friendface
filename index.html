@@ -31,6 +31,9 @@
 		</div>
 		<script type="text/javascript">
 
+var waitingForGists = 0;
+var gists = [];
+
 function userToImage(user, width) {
 	return "<div class\"row\">" +
 	"<a href=\"" + user.html_url + "\">" +
@@ -41,21 +44,27 @@ function userToImage(user, width) {
 
 function getGists(auth, user) {
 	auth.get('/users/' + user.login + '/gists').done(function (result) {
-		gistsDiv = document.getElementById("gists");
-		console.log("gists for " + user.login + " = [" + result.length + "]" + result);
 		for (i = 0; i < result.length; i++) {
-			var desc = result[i]["description"];
-			if ((desc == undefined) || (desc == null) || (desc.length == 0)) {
-				desc = Object.keys(result[i].files)[0];
+			gists.push({"user": user, "gist": result[i]});
+		}
+		waitingForGists = waitingForGists - 1;
+		if (waitingForGists == 0) {
+			gistsDiv = document.getElementById("gists");
+			for (i = 0; i < gists.length; i++) {
+				var desc = gists[i].gist["description"];
+				if ((desc == undefined) || (desc == null) || (desc.length == 0)) {
+					desc = Object.keys(gists[i].gist[i].files)[0];
+				}
+				gistsDiv.innerHTML += "<div class=\"row\">" + 
+				"<div class=\"col-sm-1\">" + 
+				userToImage(gists[i].user, 48) + 
+				"</div>" +
+				"<div class=\"col-sm-11\">" +
+				"<a href=\"" + gists[i].gist[i].html_url + "\">" + gists[i].gist[i].updated_at + " : " + desc + "</a>" +
+				"</div>" +
+				"</div>"
 			}
-			gistsDiv.innerHTML += "<div class=\"row\">" + 
-			"<div class=\"col-sm-1\">" + 
-			userToImage(user, 48) + 
-			"</div>" +
-			"<div class=\"col-sm-11\">" +
-			"<a href=\"" + result[i].html_url + "\">" + result[i].updated_at + " : " + desc + "</a>" +
-			"</div>" +
-			"</div>"
+			document.getElementById("status").innerHTML = "";
 		}
 	}).fail(handle);
 }
@@ -70,19 +79,14 @@ function getFollowers(auth) {
 }
 
 function getFollowing(auth) {
-	var done = false;
 	auth.get('/user/following').done(function(result) {
+		waitingForGists = result.length;
 	  	for	(i = 0; i < result.length; i++) {
 	  		followDiv = document.getElementById("following");
 	  		followDiv.innerHTML += userToImage(result[i], 96);
 	  		getGists(auth, result[i]);
 	  	}
-	  	done = true;
 	}).fail(handle);
-	while (!done) {
-		setTimeout(function() {}, 100);		
-	}
-	document.getElementById("status").innerHTML = "";
 }
 
 function handle(err) {
