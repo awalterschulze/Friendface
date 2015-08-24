@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Feed</title>
+		<title>Friendface</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
@@ -70,17 +70,22 @@ function getFollowers(auth) {
 }
 
 function getFollowing(auth) {
-	return auth.get('/user/following').done(function(result) {
+	var done = false;
+	auth.get('/user/following').done(function(result) {
 	  	for	(i = 0; i < result.length; i++) {
 	  		followDiv = document.getElementById("following");
 	  		followDiv.innerHTML += userToImage(result[i], 96);
 	  		getGists(auth, result[i]);
 	  	}
 	}).fail(handle);
+	for (!done) {
+		setTimeout(function() {}, 100);		
+	}
+	document.getElementById("status").innerHTML = "";
 }
 
 function handle(err) {
-	document.getElementById("status").innerHTML = "<div class=\"alert alert-danger\" role=\"alert\">Error: " + err + "</div>";
+	document.getElementById("status").innerHTML = "<div class=\"alert alert-danger\" role=\"alert\">" + err + "</div>";
 	console.log(err);
 }
 
