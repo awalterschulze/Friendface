@@ -54,9 +54,9 @@ function getGists(auth, user) {
 		}
 		waitingForGists = waitingForGists - 1;
 		gists.sort(function(a,b) {
-			console.log(a + " = " + Date.parse(a));
-			console.log(b + " = " + Date.parse(b));
-			return Date.parse(b) - Date.parse(a)
+			console.log(a + " = " + Date.parse(a.updated_at));
+			console.log(b + " = " + Date.parse(b.updated_at));
+			return Date.parse(b.updated_at) - Date.parse(a.updated_at)
 			// var ayearstr = a.updated_at.slice(0,4);
 			// var byearstr = b.updated_at.slice(0,4);
 			// console.log(ayearstr);
@@ -107,11 +107,15 @@ function getGists(auth, user) {
 					desc = Object.keys(gists[i].files)[0];
 				}
 				gistsDiv.innerHTML += "<div class=\"row\">" + 
-				"<div class=\"col-sm-12\">" + 
-				userToImage(gists[i].owner, 48) + 
-				"<a href=\"" + gists[i].html_url + "\">" + gists[i].updated_at + "</a> " + 
-				"<div class=\"container\">" + desc + "</div>" +
-				"</div>" +
+					"<div class=\"col-sm-1\">" + 
+					userToImage(gists[i].owner, 48) + 
+					"</div>" +
+					"<div class=\"col-sm-2\">" +
+					"<a href=\"" + gists[i].html_url + "\">" + gists[i].updated_at + "</a>" +
+					"</div>" +
+					"<div class=\"col-sm-9\">" +
+						"<div class=\"container\">" + desc + "</div>" +
+					"</div>" +
 				"</div>"
 			}
 			document.getElementById("status").innerHTML = "";
