@@ -53,6 +53,7 @@ function getGists(auth, user) {
 		}
 		waitingForGists = waitingForGists - 1;
 		console.log("waitingForGists = " + waitingForGists);
+		gists.sort(function(a,b) {return a.gist.updated_at < b.gist.updated_at});
 		if (waitingForGists == 0) {
 			gistsDiv = document.getElementById("gists");
 			for (i = 0; i < gists.length; i++) {
@@ -65,7 +66,7 @@ function getGists(auth, user) {
 				userToImage(gists[i].user, 48) + 
 				"</div>" +
 				"<div class=\"col-sm-11\">" +
-				"<a href=\"" + gists[i].gist.html_url + "\">" + gists[i].gist.updated_at + " : " + desc + "</a>" +
+				"<a href=\"" + gists[i].gist.html_url + "\">" + gists[i].gist.updated_at + "</a> " + desc +
 				"</div>" +
 				"</div>"
 			}
