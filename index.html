@@ -77,6 +77,7 @@ function getFollowing(auth) {
 	  		followDiv.innerHTML += userToImage(result[i], 96);
 	  		getGists(auth, result[i]);
 	  	}
+	  	done = true;
 	}).fail(handle);
 	while (!done) {
 		setTimeout(function() {}, 100);		
