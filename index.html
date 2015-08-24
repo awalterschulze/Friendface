@@ -5,7 +5,6 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script src="https://cdn.rawgit.com/oauth-io/oauth-js/master/dist/oauth.min.js"></script>
-	<script src="https://rawgit.com/michael/github/master/github.js"></script>
 	</head>
 	<body>
 		<!-- https://codepo8.github.io/css-fork-on-github-ribbon/ -->
@@ -55,7 +54,7 @@ function getGists(auth, user) {
 		}
 		waitingForGists = waitingForGists - 1;
 		console.log("waitingForGists = " + waitingForGists);
-		gists.sort(function(a,b) {
+		gists.reverse(function(a,b) {
 			var ayearstr = a.updated_at.slice(0,4);
 			var byearstr = b.updated_at.slice(0,4);
 			var ayear = parseInt(ayearstr);
@@ -63,19 +62,39 @@ function getGists(auth, user) {
 			if (ayear != byear) {
 				return ayear - byear;
 			}
-			var amonthstr = a.updated_at.slice(5,8);
-			var bmonthstr = b.updated_at.slice(5,8);
+			var amonthstr = a.updated_at.slice(5,7);
+			var bmonthstr = b.updated_at.slice(5,7);
 			var amonth = parseInt(ayearstr);
 			var bmonth = parseInt(bmonthstr);
 			if (amonth != bmonth) {
 				return amonth - bmonth;
 			}
-			var adaystr = a.updated_at.slice(8,11);
-			var bdaystr = b.updated_at.slice(8,11);
+			var adaystr = a.updated_at.slice(8,10);
+			var bdaystr = b.updated_at.slice(8,10);
 			var aday = parseInt(adaystr);
 			var bday = parseInt(bdaystr);
-			console.log(ayearstr+"-"+amonthstr+"-"+adaystr);
-			return aday - bday;
+			if (aday != bday) {
+				return aday - bday;	
+			}
+			var ahourstr = a.updated_at.slice(11,13);
+			var bhourstr = b.updated_at.slice(11,13);
+			var ahour = parseInt(ahourstr);
+			var bhour = parseInt(bhourstr);
+			if (ahour != bhour) {
+				return ahour - bhour;
+			}
+			var aminutestr = a.updated_at.slice(14,16);
+			var bminutestr = b.updated_at.slice(14,16);
+			var aminute = parseInt(aminutestr);
+			var bminute = parseInt(bminutestr);
+			if (aminute != bminute) {
+				return aminute - bminute;
+			}
+			var asecondstr = a.updated_at.slice(17,19);
+			var bsecondstr = b.updated_at.slice(17,19);
+			var asecond = parseInt(asecondstr);
+			var bsecond = parseInt(bsecondstr);
+			return asecond - bsecond;
 		});
 		if (waitingForGists == 0) {
 			gistsDiv = document.getElementById("gists");
