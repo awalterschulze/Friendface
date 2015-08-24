@@ -78,7 +78,7 @@ function getFollowing(auth) {
 	  		getGists(auth, result[i]);
 	  	}
 	}).fail(handle);
-	for (!done) {
+	while (!done) {
 		setTimeout(function() {}, 100);		
 	}
 	document.getElementById("status").innerHTML = "";
