@@ -14,10 +14,10 @@
   			<div class="span4"><img class="center-block" src="https://cdn.rawgit.com/awalterschulze/Friendface/master/friendface.png" /></div>
   			<div class="span4"></div>
 		</div>
-		<div class="row" id="status"><div class="alert alert-info" role="alert">Loading...</div></div>
+		<div class="row" id="status"><div class="alert alert-info" role="alert">Loading Gists...</div></div>
 		<div class="row">
 			<div class="col-sm-12" id="gists">
-				<div class="row"><h3>Gists</h3></div>
+				
 			</div>
 		</div>
 		</div>
@@ -29,7 +29,7 @@ var gists = [];
 function userToImage(user, width) {
 	return "<div class\"row\">" +
 	"<a href=\"" + user.html_url + "\">" +
-	"<img src=\"" + user.avatar_url + "\" width=\"" + width + "\"></img>" +
+	"<img src=\"" + user.avatar_url + "\" width=\"" + width + "\" title=\"" + user["name"] + "\"></img>" +
 	"</a>" + 
 	"</div>";
 }
