@@ -58,6 +58,8 @@ function getGists(auth, user) {
 		progressMax = progressNow + 1;
 		showProgress();
 		gists.reverse(function(a,b) {
+			console.log(a + " = " + Date.parse(a))
+			console.log(b + " = " + Date.parse(b))
 			return Date.parse(a) - Date.parse(b)
 			// var ayearstr = a.updated_at.slice(0,4);
 			// var byearstr = b.updated_at.slice(0,4);
@@ -131,10 +133,9 @@ function getFollowers(auth) {
 }
 
 function showProgress() {
-	document.getElementById("status").innerHTML = '
-	<div class="progress">
-		<div class="progress-bar" role="progressbar" aria-valuenow="' + progressNow + '" aria-valuemin="0" aria-valuemax="' + progressMax + '" style="width: 60%;"></div>
-	</div>'
+	document.getElementById("status").innerHTML = '<div class="progress">' +
+	'<div class="progress-bar" role="progressbar" aria-valuenow="' + progressNow + '" aria-valuemin="0" aria-valuemax="' + progressMax + '" style="width: 60%;"></div>' +
+	'</div>'
 }
 
 function getFollowing(auth) {
