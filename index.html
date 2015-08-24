@@ -48,19 +48,20 @@ function getGists(auth, user) {
 			gists.push({"user": user, "gist": result[i]});
 		}
 		waitingForGists = waitingForGists - 1;
+		console.log("waitingForGists = " + waitingForGists);
 		if (waitingForGists == 0) {
 			gistsDiv = document.getElementById("gists");
 			for (i = 0; i < gists.length; i++) {
 				var desc = gists[i].gist["description"];
 				if ((desc == undefined) || (desc == null) || (desc.length == 0)) {
-					desc = Object.keys(gists[i].gist[i].files)[0];
+					desc = Object.keys(gists[i].gist.files)[0];
 				}
 				gistsDiv.innerHTML += "<div class=\"row\">" + 
 				"<div class=\"col-sm-1\">" + 
 				userToImage(gists[i].user, 48) + 
 				"</div>" +
 				"<div class=\"col-sm-11\">" +
-				"<a href=\"" + gists[i].gist[i].html_url + "\">" + gists[i].gist[i].updated_at + " : " + desc + "</a>" +
+				"<a href=\"" + gists[i].gist.html_url + "\">" + gists[i].gist.updated_at + " : " + desc + "</a>" +
 				"</div>" +
 				"</div>"
 			}
