@@ -19,8 +19,11 @@ OAuth.initialize('your oauth.io Public Key');
 ```
 
 4) Go to your Github user -> Edit Profile -> Applications -> Developer Applications -> Register new Application
+
 Now keep that window open and go to oauth.io -> Integrated APIs -> Add APIs -> github.
+
 Follow the instructions :)
+
 Also remember to add your url http://yourusername.github.io/FriendFace/ to the Domains & URLs whitelist on your oauth.io account.
 
 5) Go to your site http://yourusername.github.io/FriendFace/
