@@ -51,28 +51,27 @@ function userToImage(user, width) {
 function getGists(auth, user) {
 	auth.get('/users/' + user.login + '/gists').done(function (result) {
 		for (i = 0; i < result.length; i++) {
-			gists.push({"user": user, "gist": result[i]});
+			gists.push(result[i]);
 		}
 		waitingForGists = waitingForGists - 1;
 		console.log("waitingForGists = " + waitingForGists);
 		gists.sort(function(a,b) {
-			var da = Date.parse(a.gist.updated_at);
-			var db = Date.parse(b.gist.updated_at);
+			var da = Date.parse(a.updated_at);
+			var db = Date.parse(b.updated_at);
 			return da < db
 		});
 		if (waitingForGists == 0) {
 			gistsDiv = document.getElementById("gists");
 			for (i = 0; i < gists.length; i++) {
-				var desc = gists[i].gist["description"];
+				var desc = gists[i]["description"];
 				if ((desc == undefined) || (desc == null) || (desc.length == 0)) {
-					desc = Object.keys(gists[i].gist.files)[0];
+					desc = Object.keys(gists[i].files)[0];
 				}
 				gistsDiv.innerHTML += "<div class=\"row\">" + 
-				"<div class=\"col-sm-1\">" + 
-				userToImage(gists[i].user, 48) + 
-				"</div>" +
-				"<div class=\"col-sm-11\">" +
-				"<a href=\"" + gists[i].gist.html_url + "\">" + gists[i].gist.updated_at + "</a> " + desc +
+				"<div class=\"col-sm-12\">" + 
+				userToImage(gists[i].owner, 48) + 
+				"<a href=\"" + gists[i].html_url + "\">" + gists[i].updated_at + "</a> " + 
+				desc +
 				"</div>" +
 				"</div>"
 			}
