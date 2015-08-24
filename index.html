@@ -29,7 +29,7 @@ var gists = [];
 function userToImage(user, width) {
 	return "<div class\"row\">" +
 	"<a href=\"" + user.html_url + "\">" +
-	"<img src=\"" + user.avatar_url + "\" width=\"" + width + "\" title=\"" + user["name"] + "\"></img>" +
+	"<img src=\"" + user.avatar_url + "\" width=\"" + width + "\" title=\"" + user.login + "\"></img>" +
 	"</a>" + 
 	"</div>";
 }
