@@ -38,6 +38,8 @@
 
 var waitingForGists = 0;
 var gists = [];
+var progressNow = 0;
+var progressMax = 0;
 
 function userToImage(user, width) {
 	return "<div class\"row\">" +
@@ -53,7 +55,8 @@ function getGists(auth, user) {
 			gists.push(result[i]);
 		}
 		waitingForGists = waitingForGists - 1;
-		console.log("waitingForGists = " + waitingForGists);
+		progressMax = progressNow + 1;
+		showProgress();
 		gists.reverse(function(a,b) {
 			return Date.parse(a) - Date.parse(b)
 			// var ayearstr = a.updated_at.slice(0,4);
@@ -127,9 +130,19 @@ function getFollowers(auth) {
 	}).fail(handle);
 }
 
+function showProgress() {
+	document.getElementById("status").innerHTML = '
+	<div class="progress">
+		<div class="progress-bar" role="progressbar" aria-valuenow="' + progressNow + '" aria-valuemin="0" aria-valuemax="' + progressMax + '" style="width: 60%;"></div>
+	</div>'
+}
+
 function getFollowing(auth) {
 	auth.get('/user/following').done(function(result) {
 		waitingForGists = result.length;
+		progressNow = 0;
+		progressMax = waitingForGists;
+		showProgress();
 	  	for	(i = 0; i < result.length; i++) {
 	  		followDiv = document.getElementById("following");
 	  		followDiv.innerHTML += userToImage(result[i], 96);
