@@ -51,18 +51,17 @@ function getGists(auth, user) {
 					desc = Object.keys(gists[i].files)[0];
 				}
 				gistsDiv.innerHTML += "<div class=\"row\">" + 
-					"<div class=\"col-sm-2\">" + 
+					"<div class=\"col-sm-1\">" + 
 					userToImage(gists[i].owner, 48) + 
 					"</div>" +
-					"<div class=\"col-sm-2\">" +
-					"<a href=\"" + gists[i].html_url + "\">" + gists[i].updated_at + "</a>" +
-					"</div>" +
-					"<div class=\"col-sm-8\">" +
+					"<div class=\"col-sm-11\">" +
+						"<a href=\"" + gists[i].html_url + "\">" +
 						"<div class=\"panel panel-default\">" +
   							"<div class=\"panel-body\">" +
-								desc +
+								gists[i].updated_at + " : " + desc +
     						"</div>" +
     					"</div>" +
+    					"</a>" +
 					"</div>" +
 				"</div>"
 			}
