@@ -1,3 +1,5 @@
+## Friendface requires a free oauth server.  oauth.io no longer has a permanent free tier.
+
 #What is Friendface?
 
 Thank you to the show *The IT Crowd* for the name.
